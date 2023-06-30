@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var score = 0
     
     @State private var countries = ["Estonia", "France", "Poland", "Russia", "Spain", "Germany", "Ireland", "Italy", "Nigeria", "UK", "US"].shuffled()
+    
     @State private var correctAnswer = Int.random(in: 0...2)
     
     var body: some View {
@@ -75,12 +76,15 @@ struct ContentView: View {
             Text("Your score is \(score)")
         }
     }
-    
+    //MARK: Challenge 1. Add an @State property to store the user’s score, modify it when they get an answer right or wrong, then display it in the alert and in the score label.
     func flagTapped(_ number: Int) {
         if number == correctAnswer {
+            score += 1
             scoreTitle = "Correct"
         } else {
-            scoreTitle = "Wrong"
+            score -= 1
+            //MARK: Challenge 2. When someone chooses the wrong flag, tell them their mistake in your alert message – something like “Wrong! That’s the flag of France,” for example.
+            scoreTitle = "Wrong! That’s the flag of \(countries[number]),"
         }
         showingScore = true
     }
@@ -96,3 +100,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
