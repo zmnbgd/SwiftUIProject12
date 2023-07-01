@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
     @State private var score = 0
+    @State private var questionCount = 0
     
     @State private var countries = ["Estonia", "France", "Poland", "Russia", "Spain", "Germany", "Ireland", "Italy", "Nigeria", "UK", "US"].shuffled()
     
@@ -61,7 +62,7 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score ???")
+                Text("Score \(score)")
                     .foregroundColor(.white)
                     .font(.title.bold())
                 
@@ -70,10 +71,19 @@ struct ContentView: View {
             }
             .padding()
         }
+        //MARK: Challenge 3. Make the game show only 8 questions, at which point they see a final alert judging their score and can restart the game.
         .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
+            if questionCount != 7 {
+                Button("Continue", action: askQuestion)
+            } else {
+                Button("Start new game", action: newGame)
+            }
         } message: {
-            Text("Your score is \(score)")
+            if questionCount != 7 {
+                Text("Your score is \(score)")
+            } else {
+                Text("You win!")
+            }
         }
     }
     //MARK: Challenge 1. Add an @State property to store the user’s score, modify it when they get an answer right or wrong, then display it in the alert and in the score label.
@@ -92,6 +102,14 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        questionCount += 1
+    }
+    
+    func newGame() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
+        questionCount += 1
+        score = 0
     }
 }
 
