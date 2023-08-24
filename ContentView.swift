@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+//MARK: Day 24 - Challenge 2. Go back to project 2 and replace the Image view used for flags with a new FlagImage() view that renders one flag image using the specific set of modifiers we had.
+
+struct FlagImage: View {
+    let imageName: String
+    
+    var body: some View {
+        Image(imageName)
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     
     @State private var showingScore = false
@@ -46,10 +59,11 @@ struct ContentView: View {
                             // MARK: Flag was tapped
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .renderingMode(.original)
-                                .clipShape(Capsule())
-                                .shadow(radius: 5)
+//                            Image(countries[number])
+//                                .renderingMode(.original)
+//                                .clipShape(Capsule())
+//                                .shadow(radius: 5)
+                            FlagImage(imageName: countries[number])
                         }
                     }
                 }
@@ -87,6 +101,7 @@ struct ContentView: View {
         }
     }
     //MARK: Challenge 1. Add an @State property to store the user’s score, modify it when they get an answer right or wrong, then display it in the alert and in the score label.
+    
     func flagTapped(_ number: Int) {
         if number == correctAnswer {
             score += 1
@@ -94,6 +109,7 @@ struct ContentView: View {
         } else {
             score -= 1
             //MARK: Challenge 2. When someone chooses the wrong flag, tell them their mistake in your alert message – something like “Wrong! That’s the flag of France,” for example.
+            
             scoreTitle = "Wrong! That’s the flag of \(countries[number]),"
         }
         showingScore = true
