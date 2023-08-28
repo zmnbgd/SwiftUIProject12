@@ -47,9 +47,10 @@ struct ContentView: View {
                 VStack(spacing: 8) {
                     VStack {
                         Text("Tap the correct flag")
-                            .foregroundColor(.white)
+                            //.foregroundColor(.white)
                             //.font(.subheadline.weight(.heavy))
-                            .font(.largeTitle.weight(.semibold))
+                            //.font(.largeTitle.weight(.semibold))
+                            .titleStyle()
                         Text(countries[correctAnswer])
                             .foregroundColor(.white)
                             .font(.largeTitle.weight(.semibold))
@@ -132,6 +133,21 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+//MARK: Day 24 - Challenge 3. Create a custom ViewModifier (and accompanying View extension) that makes a view have a large, blue font suitable for prominent titles in a view.
+struct BlueCustomTitleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.red)
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(BlueCustomTitleModifier())
     }
 }
 
