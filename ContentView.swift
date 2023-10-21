@@ -9,6 +9,8 @@ import SwiftUI
 
 //MARK: Day 24 - Challenge 2. Go back to project 2 and replace the Image view used for flags with a new FlagImage() view that renders one flag image using the specific set of modifiers we had.
 
+//MARK: Day 34 - Challenge 1. When you tap a flag, make it spin around 360 degrees on the Y axis.
+
 struct FlagImage: View {
     let imageName: String
     
@@ -26,6 +28,8 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var score = 0
     @State private var questionCount = 0
+    
+    @State private var animationAmount = 0.0
     
     @State private var countries = ["Estonia", "France", "Poland", "Russia", "Spain", "Germany", "Ireland", "Italy", "Nigeria", "UK", "US"].shuffled()
     
@@ -57,8 +61,12 @@ struct ContentView: View {
                     }
                     ForEach(0..<3) { number in
                         Button {
+
                             // MARK: Flag was tapped
                             flagTapped(number)
+                            withAnimation(.interpolatingSpring(stiffness: 5, damping: 1)) {
+                                animationAmount += 360
+                            }
                         } label: {
 //                            Image(countries[number])
 //                                .renderingMode(.original)
@@ -66,6 +74,8 @@ struct ContentView: View {
 //                                .shadow(radius: 5)
                             FlagImage(imageName: countries[number])
                         }
+                        .rotation3DEffect(.degrees(animationAmount), axis: (x: 0.0, y: 1.0, z: 0.0)
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity)
